@@ -1,6 +1,14 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+
+void processInput(GLFWwindow *window)
+{
+    if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS)
+    {
+        glfwSetWindowShouldClose(window, true);
+    }
+}
 int main()
 {
     glfwInit();
@@ -27,8 +35,25 @@ int main()
 
     glViewport(0, 0, fbWidth, fbHeight);
 
+    float green = 0.0f;
+
+    float vertices[] = {
+        -0.5f, -0.5f, 0.0f,
+        0.05f, -0.05f, 0.0f,
+        0.0f, 0.5f, 0.0f};
+
     while (!glfwWindowShouldClose(window))
     {
+        // input
+        processInput(window);
+
+        // rendering
+        green += 0.01f;
+        if (green > 1.0f)
+            green = 0.0f;
+
+        glClearColor(0.2f, green, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
